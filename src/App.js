@@ -1,11 +1,11 @@
 import React from "react";
-import img from "./assets/3840x2160 (12).jpg";
 
-export function App() {
+const App = () => {
   return (
     <>
-      <h1>Welcome {new Date().toString}</h1>
-      <img src={img} alt="sd" />
+      <h1>Welcome</h1>
     </>
   );
-}
+};
+
+export default App;
