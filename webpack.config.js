@@ -2,10 +2,14 @@ const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const glob = require("glob"); // 
 
 module.exports = {
-  stats: "minimal", //убрать для делательной инофрмации
-  entry: path.resolve(__dirname, "src", "index.js"),
+  stats: "minimal",
+  entry: {
+    // Используем glob для определения входных точек
+    app: glob.sync(path.resolve(__dirname, "src", "index.@(js|jsx|ts|tsx)")),
+  },
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "index.bundle.js",
