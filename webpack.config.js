@@ -51,12 +51,6 @@ module.exports = {
               outputPath: "images",
             },
           },
-          {
-            loader: "image-webpack-loader", // Добавляем image-webpack-loader
-            options: {
-              disable: process.env.NODE_ENV === "development", // Отключаем его в режиме разработки
-            },
-          },
         ],
       },
       {
