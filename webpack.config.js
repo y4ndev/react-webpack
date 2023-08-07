@@ -1,18 +1,17 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const glob = require("glob"); // 
+const glob = require("glob");
 
 module.exports = {
   stats: "minimal",
   entry: {
-    // Используем glob для определения входных точек
     app: glob.sync(path.resolve(__dirname, "src", "index.@(js|jsx|ts|tsx)")),
   },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "index.bundle.js",
+    filename: "js/index.bundle.js", // Помещаем JS файлы в папку "js"
   },
   devServer: {
     port: 3010,
@@ -51,8 +50,7 @@ module.exports = {
           {
             loader: "file-loader",
             options: {
-              name: "[name].[ext]",
-              outputPath: "images",
+              name: "images/[name].[ext]", // Помещаем изображения в папку "images"
             },
           },
         ],
@@ -63,8 +61,7 @@ module.exports = {
           {
             loader: "file-loader",
             options: {
-              name: "[name].[ext]",
-              outputPath: "fonts",
+              name: "fonts/[name].[ext]", // Помещаем шрифты в папку "fonts"
             },
           },
         ],
@@ -77,11 +74,16 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
-      filename: "styles.css",
+      filename: "css/styles.css", 
     }),
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, "src", "index.html"),
-      filename: "index.html",
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, "public", "index.html"),
+          to: path.resolve(__dirname, "dist", "index.html"),
+        },
+        
+      ],
     }),
   ],
 };
