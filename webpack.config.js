@@ -3,6 +3,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const glob = require("glob");
+const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 
 module.exports = {
   stats: "minimal",
@@ -11,7 +12,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "js/index.bundle.js", // Помещаем JS файлы в папку "js"
+    filename: "js/index.bundle.js",
   },
   devServer: {
     port: 3010,
@@ -50,7 +51,7 @@ module.exports = {
           {
             loader: "file-loader",
             options: {
-              name: "images/[name].[ext]", // Помещаем изображения в папку "images"
+              name: "images/[name].[ext]",
             },
           },
         ],
@@ -61,7 +62,7 @@ module.exports = {
           {
             loader: "file-loader",
             options: {
-              name: "fonts/[name].[ext]", // Помещаем шрифты в папку "fonts"
+              name: "fonts/[name].[ext]",
             },
           },
         ],
@@ -70,11 +71,12 @@ module.exports = {
   },
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx"],
+    plugins: [new TsconfigPathsPlugin({ configFile: "./tsconfig.json" })],
   },
   plugins: [
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
-      filename: "css/styles.css", 
+      filename: "css/styles.css",
     }),
     new CopyWebpackPlugin({
       patterns: [
@@ -82,7 +84,6 @@ module.exports = {
           from: path.resolve(__dirname, "public", "index.html"),
           to: path.resolve(__dirname, "dist", "index.html"),
         },
-        
       ],
     }),
   ],
